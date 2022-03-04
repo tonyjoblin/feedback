@@ -27,3 +27,53 @@ with the posed question. Users may also be allowed free text responses.
 - manage access to survey (open, close, expire links)
 - scripts to seed dev environment
 - survey respondent demographics (country, postcode, age band, sex, education, occupation)
+
+## API
+
+/survey
+/survey/{id}
+/survey/{id}/response/{id}
+/survey/{id}/results
+
+## Tables
+
+surveys
+- id
+- name
+- description
+- owner
+- opens_at
+- closes_at
+
+survey_invites
+- survey_id
+- email
+- ???
+
+question
+- id
+- text
+- type {free type, agreement, multi choice}
+
+choices
+- question_id
+- text
+
+response
+- id
+- survey_id
+- submitted
+- user
+
+answer
+- id
+- question_id
+- response
+
+respondee_demographics
+- response_id
+- demographics ???
+
+## UI Routes
+
+TODO
