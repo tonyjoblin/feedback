@@ -1,13 +1,15 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  name: MyString
-  description: MyText
-  opens_at: 2022-03-04 21:58:41
-  closes_at: 2022-03-04 21:58:41
+  name: Favourite Ice Cream
+  description: Tell us what you like about ice cream and what is your favourite
+  opens_at: 2022-03-04 06:00:00
 
 two:
-  name: MyString
-  description: MyText
-  opens_at: 2022-03-04 21:58:41
-  closes_at: 2022-03-04 21:58:41
+  name: Best Muscle Car
+  description: This week we ask our readers what is the best muscle car of all time
+  opens_at: 2022-04-04 00:01:00
+  closes_at: 2022-04-11 23:59:59
+
+three:
+  name: What do you want for Christmas
