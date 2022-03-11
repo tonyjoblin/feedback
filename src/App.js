@@ -1,5 +1,5 @@
+import { Link, Outlet } from "react-router-dom";
 import './App.css';
-import SurveyList from './SurveyList';
 
 function App() {
   return (
@@ -7,7 +7,16 @@ function App() {
       <header className="App-header">
         <h1>Survey webapp</h1>
       </header>
-      <SurveyList/>
+      <nav
+        style={{
+          borderBottom: "solid 1px",
+          paddingBottom: "1rem"
+        }}
+        >
+        <Link to="/">Home</Link> | {' '}
+        <Link to="/surveys">Surveys</Link>
+      </nav>
+      <Outlet />
     </div>
   );
 }

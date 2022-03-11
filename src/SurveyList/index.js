@@ -1,11 +1,14 @@
 import { useEffect, useState } from 'react';
+import { Link } from "react-router-dom";
+
+// #TODO: method to create a new survey
 
 function Survey({ data }) {
   return (
-    <secion>
-      <h3>{data.name}</h3>
+    <section>
+      <h3><Link to={`/surveys/${data.id}`}>{data.name}</Link></h3>
       <p>{data.description}</p>
-    </secion>
+    </section>
   )
 }
 
@@ -23,7 +26,6 @@ function SurveyList() {
       );
       const data = await response.json();
       if (response.ok) {
-        console.log(data);
         setSurveys(data);
       } else {
         console.error(response.status);
@@ -37,7 +39,7 @@ function SurveyList() {
   return (
     <div>
       <h2>Survey List</h2>
-      {surveys && surveys.map(survey => <Survey data={survey} />)}
+      {surveys && surveys.map(survey => <Survey key={survey.id} data={survey} />)}
       {!surveys && <p>No surveys, how sad</p>}
     </div>
   );
