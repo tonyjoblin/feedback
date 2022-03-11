@@ -69,7 +69,26 @@ function Survey() {
 
   const updateSurvey = (key, value) => {
     const updatedSurvey = { ...survey, [key]: value };
-    setSurvey(updatedSurvey);
+    fetch(
+      `/surveys/${params.surveyId}`,
+      {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          name: updatedSurvey.name,
+          description: updatedSurvey.description
+        }),
+        cache: 'no-cache'
+      }).then(response => {
+        if (response.ok) {
+          setSurvey(updatedSurvey);
+        } else {
+          console.error(response.status);
+          console.error(response.statusText);
+        }
+      }).catch(error => console.error(error));
   }
 
   return (
