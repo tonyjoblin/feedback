@@ -27,6 +27,7 @@ with the posed question. Users may also be allowed free text responses.
 - manage access to survey (open, close, expire links)
 - scripts to seed dev environment
 - survey respondent demographics (country, postcode, age band, sex, education, occupation)
+- allow images to be used with questions
 
 ## API
 
