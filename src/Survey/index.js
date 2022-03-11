@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useParams } from "react-router-dom";
+import TextInput from '../TextInput';
 
 // TODO: pretty format date/TimeRanges
 // TODO: allow edit/save name
@@ -8,7 +9,40 @@ import { useParams } from "react-router-dom";
 // TODO: method to close the survey either now or at date/time
 // TODO: method to delete the survey
 
-function ManageSurvey() {
+function SurveyForm({ survey, handleUpdate }) {
+  return (
+    <form>
+      <fieldset>
+        <h2>
+          <label htmlFor="name"><strong>Survey Name:</strong> </label>
+          <TextInput
+            value={survey.name}
+            placeholder="Write a name for the survey"
+            name="name"
+            size="60"
+            onChange={e => handleUpdate('name', e.target.value)}
+            />
+        </h2>
+        <p>
+          <label htmlFor="description"><strong>Description:</strong> </label>
+          <TextInput
+            value={survey.description}
+            placeholder="Write a description for the survey"
+            name="description"
+            size="60"
+            onChange={e => handleUpdate('description', e.target.value)}
+            />
+        </p>
+        <p><strong>Opens:</strong> {survey.opens_at || '<not set>'}</p>
+        <p><strong>Closes:</strong> {survey.closes_at || '<not set>'}</p>
+        <p><strong>Created at:</strong> {survey.created_at}</p>
+        <p><strong>Last updated:</strong> {survey.updated_at}</p>
+      </fieldset>
+    </form>
+  );
+}
+
+function Survey() {
   const [survey, setSurvey] = useState();
   const params = useParams();
 
@@ -16,10 +50,10 @@ function ManageSurvey() {
     const fetchSurveys = async () => {
       const response = await fetch(
         `/surveys/${params.surveyId}`, {
-          headers: { 
-            'Content-Type': 'application/json'
-          }
+        headers: {
+          'Content-Type': 'application/json'
         }
+      }
       );
       const data = await response.json();
       if (response.ok) {
@@ -33,16 +67,17 @@ function ManageSurvey() {
     fetchSurveys().catch(console.error);
   }, [params.surveyId]);
 
+  const updateSurvey = (key, value) => {
+    const updatedSurvey = { ...survey, [key]: value };
+    setSurvey(updatedSurvey);
+  }
+
   return (
     <div>
-      <h2>{survey.name}</h2>
-      <p>{survey.description}</p>
-      <p><strong>Opens:</strong> {survey.opens_at || '<not set>'}</p>
-      <p><strong>Closes:</strong> {survey.closes_at || '<not set>'}</p>
-      <p><strong>Created at:</strong> {survey.created_at}</p>
-      <p><strong>Last updated:</strong> {survey.updated_at}</p>
+      {survey && (<SurveyForm survey={survey} handleUpdate={updateSurvey} />)}
+      {!survey && (<><p>Something went wrong, we don't have a survey here!</p></>)}
     </div>
   );
 }
 
-export default ManageSurvey;
+export default Survey;
