@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useParams } from "react-router-dom";
-import TextInput from '../TextInput';
+import { Link, useParams, useNavigate } from "react-router-dom";
 
 // TODO: pretty format date/TimeRanges
 // TODO: allow edit/save name
@@ -9,42 +8,21 @@ import TextInput from '../TextInput';
 // TODO: method to close the survey either now or at date/time
 // TODO: method to delete the survey
 
-function SurveyForm({ survey, handleUpdate }) {
+function SurveyDetails({ survey }) {
   return (
-    <form>
-      <fieldset>
-        <h2>
-          <label htmlFor="name"><strong>Survey Name:</strong> </label>
-          <TextInput
-            value={survey.name}
-            placeholder="Write a name for the survey"
-            name="name"
-            size="60"
-            onChange={e => handleUpdate('name', e.target.value)}
-            />
-        </h2>
-        <p>
-          <label htmlFor="description"><strong>Description:</strong> </label>
-          <TextInput
-            value={survey.description}
-            placeholder="Write a description for the survey"
-            name="description"
-            size="60"
-            onChange={e => handleUpdate('description', e.target.value)}
-            />
-        </p>
-        <p><strong>Opens:</strong> {survey.opens_at || '<not set>'}</p>
-        <p><strong>Closes:</strong> {survey.closes_at || '<not set>'}</p>
-        <p><strong>Created at:</strong> {survey.created_at}</p>
-        <p><strong>Last updated:</strong> {survey.updated_at}</p>
-      </fieldset>
-    </form>
+    <>
+      <h2>{survey.name}</h2>
+      <p>{survey.description}</p>
+      <p>Opens at: {survey.opens_at || '<not set>'}</p>
+      <p>Closes at: {survey.closes_at || '<not set>'}</p>
+    </>
   );
 }
 
 function Survey() {
   const [survey, setSurvey] = useState();
   const params = useParams();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchSurveys = async () => {
@@ -67,33 +45,33 @@ function Survey() {
     fetchSurveys().catch(console.error);
   }, [params.surveyId]);
 
-  const updateSurvey = (key, value) => {
-    const updatedSurvey = { ...survey, [key]: value };
+  const deleteSurvey = () => {
     fetch(
       `/surveys/${params.surveyId}`,
       {
-        method: 'PUT',
+        method: 'DELETE',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({
-          name: updatedSurvey.name,
-          description: updatedSurvey.description
-        }),
         cache: 'no-cache'
       }).then(response => {
         if (response.ok) {
-          setSurvey(updatedSurvey);
+          navigate('/surveys');
         } else {
           console.error(response.status);
           console.error(response.statusText);
         }
       }).catch(error => console.error(error));
-  }
+  };
 
   return (
     <div>
-      {survey && (<SurveyForm survey={survey} handleUpdate={updateSurvey} />)}
+      {survey && (
+        <>
+          <Link to={`/surveys/${params.surveyId}/edit`} >Edit</Link>
+          <SurveyDetails survey={survey} />
+          <input type="button" onClick={deleteSurvey} value="Delete survey" />
+        </>)}
       {!survey && (<><p>Something went wrong, we don't have a survey here!</p></>)}
     </div>
   );

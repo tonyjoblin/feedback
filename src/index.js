@@ -5,6 +5,8 @@ import './index.css';
 import App from './App';
 import SurveyList from './SurveyList';
 import Survey from './Survey';
+import NewSurvey from './NewSurvey';
+import EditSurvey from './EditSurvey';
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
@@ -13,7 +15,9 @@ ReactDOM.render(
       <Routes>
         <Route path="/" element={<App />} >
           <Route path="surveys" element={<SurveyList />} />
+          <Route path="surveys/new" element={<NewSurvey />} />
           <Route path="surveys/:surveyId" element={<Survey />} />
+          <Route path="surveys/:surveyId/edit" element={<EditSurvey />} />
           <Route
             path="*"
             element={

@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 // #TODO: method to create a new survey
 
-function Survey({ data }) {
+function SurveyListItem({ data }) {
   return (
     <section>
       <h3><Link to={`/surveys/${data.id}`}>{data.name}</Link></h3>
@@ -18,7 +18,7 @@ function SurveyList() {
   useEffect(() => {
     const fetchSurveys = async () => {
       const response = await fetch(
-        '/surveys', {
+        '/surveys.json', {
           headers: { 
             'Content-Type': 'application/json'
           }
@@ -39,7 +39,10 @@ function SurveyList() {
   return (
     <div>
       <h2>Survey List</h2>
-      {surveys && surveys.map(survey => <Survey key={survey.id} data={survey} />)}
+      <nav>
+        <Link to="/surveys/new">New Survey</Link>
+      </nav>
+      {surveys && surveys.map(survey => <SurveyListItem key={survey.id} data={survey} />)}
       {!surveys && <p>No surveys, how sad</p>}
     </div>
   );
