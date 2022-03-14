@@ -8,15 +8,25 @@ import { useState } from 'react';
 function SurveyForm({ data, handleSave, handleCancel }) {
   const [survey, setSurvey] = useState(data);
 
-  const handleUpdate = (key, value) => {
-    const updatedSurvey = { ...survey, [key]: value };
-    if (key === 'opens_at') {
-      if (value === '') {
-        updatedSurvey.closes_at = '';
-      }
-    }
-    setSurvey(updatedSurvey);
+  const handleUpdateName = (event) => {
+    setSurvey({ ...survey, name: event.target.value });
+  };
+
+  const handleUpdateDescription = (event) => {
+    setSurvey({ ...survey, description: event.target.value });
+  };
+
+  const handleUpdateOpensAt = (event) => {
+    setSurvey({
+      ...survey,
+      opens_at: event.target.value,
+      closes_at: event.target.value === '' ? '' : survey.closes_at
+    })
   }
+
+  const handleUpdateClosesAt = (event) => {
+    setSurvey({ ...survey, closes_at: event.target.value });
+  };
 
   const onSave = () => handleSave(survey);
   const onCancel = () => handleCancel();
@@ -32,7 +42,7 @@ function SurveyForm({ data, handleSave, handleCancel }) {
             placeholder="Write a name for the survey"
             name="name"
             size="60"
-            onChange={e => handleUpdate('name', e.target.value)}
+            onChange={handleUpdateName}
             />
         </p>
         <p>
@@ -44,7 +54,7 @@ function SurveyForm({ data, handleSave, handleCancel }) {
             name="description"
             cols="100"
             rows="6"
-            onChange={e => handleUpdate('description', e.target.value)}
+            onChange={handleUpdateDescription}
             />
         </p>
         <p>
@@ -52,7 +62,7 @@ function SurveyForm({ data, handleSave, handleCancel }) {
           <input
             type="date"
             value={survey.opens_at || ''}
-            onChange={e => handleUpdate('opens_at', e.target.value)}
+            onChange={handleUpdateOpensAt}
             />
         </p>
         {survey.opens_at &&
@@ -61,7 +71,7 @@ function SurveyForm({ data, handleSave, handleCancel }) {
             <input
               type="date"
               value={survey.closes_at || ''}
-              onChange={e => handleUpdate('closes_at', e.target.value)}
+              onChange={handleUpdateClosesAt}
               />
           </p>
         }
