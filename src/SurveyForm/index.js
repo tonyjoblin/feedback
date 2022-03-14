@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { addDays, toIsoString } from '../utils/date';
 
 // TODO: validate presence and min length of name
 // TODO: validate description
@@ -30,6 +31,13 @@ function SurveyForm({ data, handleSave, handleCancel }) {
 
   const onSave = () => handleSave(survey);
   const onCancel = () => handleCancel();
+
+  const todayStr = toIsoString(new Date());
+  let minClosesAt = undefined;
+  if (survey.opens_at && survey.opens_at !== '') {
+    const opensAt = new Date(survey.opens_at);
+    minClosesAt = toIsoString(addDays(opensAt, 1));
+  }
 
   return (
     <form>
@@ -63,6 +71,7 @@ function SurveyForm({ data, handleSave, handleCancel }) {
             type="date"
             value={survey.opens_at || ''}
             onChange={handleUpdateOpensAt}
+            min={todayStr}
             />
         </p>
         {survey.opens_at &&
@@ -72,6 +81,7 @@ function SurveyForm({ data, handleSave, handleCancel }) {
               type="date"
               value={survey.closes_at || ''}
               onChange={handleUpdateClosesAt}
+              min={minClosesAt}
               />
           </p>
         }
