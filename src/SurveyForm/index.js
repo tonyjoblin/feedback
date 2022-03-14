@@ -10,6 +10,11 @@ function SurveyForm({ data, handleSave, handleCancel }) {
 
   const handleUpdate = (key, value) => {
     const updatedSurvey = { ...survey, [key]: value };
+    if (key === 'opens_at') {
+      if (value === '') {
+        updatedSurvey.closes_at = '';
+      }
+    }
     setSurvey(updatedSurvey);
   }
 
@@ -44,12 +49,22 @@ function SurveyForm({ data, handleSave, handleCancel }) {
         </p>
         <p>
           <label htmlFor="opens">Opens at:</label><br/>
-          {survey.opens_at || '<not set>'}
+          <input
+            type="date"
+            value={survey.opens_at || ''}
+            onChange={e => handleUpdate('opens_at', e.target.value)}
+            />
         </p>
-        <p>
-          <label htmlFor="closes">Closes at:</label><br/>
-          {survey.closes_at || '<not set>'}
-        </p>
+        {survey.opens_at &&
+          <p>
+            <label htmlFor="closes">Closes at:</label><br/>
+            <input
+              type="date"
+              value={survey.closes_at || ''}
+              onChange={e => handleUpdate('closes_at', e.target.value)}
+              />
+          </p>
+        }
       </fieldset>
       <input type="button" onClick={onCancel} value="Cancel" /> {' '}
       <input type="button" onClick={onSave} value="Save" />
