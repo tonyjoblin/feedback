@@ -1,15 +1,8 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  name: Favourite Ice Cream
-  description: Tell us what you like about ice cream and what is your favourite
-  opens_at: 2022-03-04
-
-two:
-  name: Best Muscle Car
-  description: This week we ask our readers what is the best muscle car of all time
-  opens_at: 2022-04-04
-  closes_at: 2022-04-11
-
-three:
-  name: What do you want for Christmas
+  id: 1560884f-798b-427b-b653-ad489cc7c3f9
+  name: Self Reflection April 2022
+  description:
+  opens_at: 2022-04-18
+  closes_at: 2022-04-29

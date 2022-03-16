@@ -1,0 +1,14 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  text: On a scale of 1-5 how are you feeling about work overall right now?
+  instructions: 1 = not good at all, 5 = really great!
+  order: 1
+  survey_id: 1560884f-798b-427b-b653-ad489cc7c3f9
+
+two:
+  text: On a scale of 1-5 how are you feeling about your wellbeing right now?
+  subtext: Work/life balance, general health, stress, personal life
+  instructions: 1 = not good at all, 5 = really great!
+  order: 2
+  survey_id: 1560884f-798b-427b-b653-ad489cc7c3f9
