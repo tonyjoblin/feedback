@@ -29,7 +29,7 @@ class SurveyBuilderTest < ActiveSupport::TestCase
 
   test "will create questions" do
     assert_difference("Question.count") do
-      created, survey = SurveyBuilder.new.build(
+      _, survey = SurveyBuilder.new.build(
         ActionController::Parameters.new(
           name: 'name',
           description: 'description',

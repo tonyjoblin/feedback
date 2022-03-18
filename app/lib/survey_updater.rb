@@ -6,19 +6,17 @@ class SurveyUpdater
   # survey_params is an ActionController::Parameters
   def update(survey_params)
     params = safe_survey_params(survey_params)
-    if survey_params[:questions].present?
-      params[:questions] = survey_params[:questions].map do |question_params|
-        if question_params[:id].present?
-          updated_question(question_params)
-        else
-          build_new_question(question_params)
-        end
-      end
-    end
+    params[:questions] = build_questions(survey_params[:questions]) if survey_params[:questions].present?
     @survey.update(params)
   end
 
   private
+
+  def build_questions(questions)
+    questions.map do |params|
+      params[:id].present? ? updated_question(params) : build_new_question(params)
+    end
+  end
 
   def updated_question(question_params)
     question = @survey.questions.find(question_params[:id])

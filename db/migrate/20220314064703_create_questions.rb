@@ -8,6 +8,8 @@ class CreateQuestions < ActiveRecord::Migration[7.0]
       t.timestamps
     end
 
+    # rubocop:disable Rails/NotNullColumn
     add_reference :questions, :survey, foreign_key: true, type: :uuid, null: false
+    # rubocop:enable Rails/NotNullColumn
   end
 end

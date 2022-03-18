@@ -8,6 +8,6 @@
 
 if Rails.env.development?
   require 'active_record/fixtures'
-  ActiveRecord::FixtureSet.create_fixtures("#{Rails.root}/test/fixtures", "surveys")
-  ActiveRecord::FixtureSet.create_fixtures("#{Rails.root}/test/fixtures", "questions")
+  ActiveRecord::FixtureSet.create_fixtures(Rails.root.join("test/fixtures/surveys"))
+  ActiveRecord::FixtureSet.create_fixtures(Rails.root.join("test/fixtures/questions"))
 end
