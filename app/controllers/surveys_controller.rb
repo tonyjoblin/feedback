@@ -1,5 +1,5 @@
 class SurveysController < ApplicationController
-  before_action :set_survey, only: %i[ show update destroy ]
+  before_action :set_survey, only: %i[show update destroy]
 
   # GET /surveys
   def index
@@ -39,16 +39,17 @@ class SurveysController < ApplicationController
   end
 
   private
-    def serialize_survey
-      @survey.serializable_hash(include: :questions)
-    end
 
-    # Use callbacks to share common setup or constraints between actions.
-    def set_survey
-      @survey = Survey.with_questions.find(params[:id])
-    end
+  def serialize_survey
+    @survey.serializable_hash(include: :questions)
+  end
 
-    def required_params
-      params.require(:survey)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_survey
+    @survey = Survey.with_questions.find(params[:id])
+  end
+
+  def required_params
+    params.require(:survey)
+  end
 end
