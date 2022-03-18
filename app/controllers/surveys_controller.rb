@@ -10,14 +10,14 @@ class SurveysController < ApplicationController
 
   # GET /surveys/1
   def show
-    render json: @survey
+    render json: serialize_survey
   end
 
   # POST /surveys
   def create
-    @survey = Survey.new(survey_params)
+    saved, @survey = SurveyBuilder.new.build(required_params)
 
-    if @survey.save
+    if saved
       render json: @survey, status: :created, location: @survey
     else
       render json: @survey.errors, status: :unprocessable_entity
@@ -26,8 +26,8 @@ class SurveysController < ApplicationController
 
   # PATCH/PUT /surveys/1
   def update
-    if @survey.update(survey_params)
-      render json: @survey
+    if SurveyUpdater.new(@survey).update(required_params)
+      render json: serialize_survey
     else
       render json: @survey.errors, status: :unprocessable_entity
     end
@@ -39,13 +39,16 @@ class SurveysController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_survey
-      @survey = Survey.find(params[:id])
+    def serialize_survey
+      @survey.serializable_hash(include: :questions)
     end
 
-    # Only allow a list of trusted parameters through.
-    def survey_params
-      params.require(:survey).permit(:name, :description, :opens_at, :closes_at)
+    # Use callbacks to share common setup or constraints between actions.
+    def set_survey
+      @survey = Survey.with_questions.find(params[:id])
+    end
+
+    def required_params
+      params.require(:survey)
     end
 end
