@@ -15,9 +15,8 @@ class SurveysController < ApplicationController
 
   # POST /surveys
   def create
-    saved, @survey = SurveyBuilder.new.build(required_params)
-
-    if saved
+    @survey = Survey.new(survey_params)
+    if @survey.save
       render json: @survey, status: :created, location: @survey
     else
       render json: @survey.errors, status: :unprocessable_entity
@@ -26,7 +25,7 @@ class SurveysController < ApplicationController
 
   # PATCH/PUT /surveys/1
   def update
-    if SurveyUpdater.new(@survey).update(required_params)
+    if @survey.update(survey_params)
       render json: serialize_survey
     else
       render json: @survey.errors, status: :unprocessable_entity
@@ -49,7 +48,13 @@ class SurveysController < ApplicationController
     @survey = Survey.with_questions.find(params[:id])
   end
 
-  def required_params
-    params.require(:survey)
+  def survey_params
+    params.require(:survey).permit(
+      :name,
+      :description,
+      :opens_at,
+      :closes_at,
+      questions: [:text, :subtext, :instructions, :order]
+    ).transform_keys { |key| key == 'questions' ? 'questions_attributes' : key }
   end
 end
